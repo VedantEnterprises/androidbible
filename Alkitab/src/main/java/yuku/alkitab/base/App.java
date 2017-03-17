@@ -14,9 +14,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ViewConfiguration;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.leakcanary.LeakCanary;
@@ -54,7 +51,7 @@ public class App extends yuku.afw.App {
 	public static final String TAG = App.class.getSimpleName();
 
 	private static boolean initted = false;
-	private static Tracker APP_TRACKER;
+//	private static Tracker APP_TRACKER;
 
 	static final Interceptor userAgent = chain -> {
 		final Request originalRequest = chain.request();
@@ -119,15 +116,16 @@ public class App extends yuku.afw.App {
 
 		staticInit();
 
-		{ // Google Analytics V4
-			// This can't be in staticInit because we need the Application instance.
-			final GoogleAnalytics analytics = GoogleAnalytics.getInstance(context);
-			final Tracker t = analytics.newTracker(context.getString(R.string.ga_trackingId));
-			t.enableAutoActivityTracking(true);
-			t.enableAdvertisingIdCollection(true);
-			APP_TRACKER = t;
-			analytics.enableAutoActivityReports(this);
-		}
+		//TRACKER
+//		{ // Google Analytics V4
+//			// This can't be in staticInit because we need the Application instance.
+//			final GoogleAnalytics analytics = GoogleAnalytics.getInstance(context);
+//			final Tracker t = analytics.newTracker(context.getString(R.string.ga_trackingId));
+//			t.enableAutoActivityTracking(true);
+//			t.enableAdvertisingIdCollection(true);
+//			APP_TRACKER = t;
+//			analytics.enableAutoActivityReports(this);
+//		}
 
 		{ // Stetho call through proxy
 			StethoShim.initializeWithDefaults(this);
@@ -339,9 +337,9 @@ public class App extends yuku.afw.App {
 		MultiDex.install(this);
 	}
 
-	public synchronized static Tracker getTracker() {
-		return APP_TRACKER;
-	}
+//	public synchronized static Tracker getTracker() {
+//		return APP_TRACKER;
+//	}
 
 	private static ExecutorService eventSubmitter = Executors.newSingleThreadExecutor();
 
@@ -350,10 +348,10 @@ public class App extends yuku.afw.App {
 	}
 
 	public static void trackEvent(final String category, final String action) {
-		final Tracker tracker = getTracker();
-		if (tracker != null) { // guard against wrong initialization order
-			eventSubmitter.submit(() -> tracker.send(new HitBuilders.EventBuilder(category, action).build()));
-		}
+//		final Tracker tracker = getTracker();
+//		if (tracker != null) { // guard against wrong initialization order
+//			eventSubmitter.submit(() -> tracker.send(new HitBuilders.EventBuilder(category, action).build()));
+//		}
 	}
 
 	private static OkHttpClient okhttp;

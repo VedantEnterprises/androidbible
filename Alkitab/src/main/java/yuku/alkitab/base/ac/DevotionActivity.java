@@ -23,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.android.gms.analytics.HitBuilders;
 import yuku.afw.V;
 import yuku.afw.storage.Preferences;
 import yuku.alkitab.base.App;
@@ -247,7 +246,7 @@ public class DevotionActivity extends BaseLeftDrawerActivity implements LeftDraw
 			final String currentDate = yyyymmdd.get().format(ac.currentDate);
 			if (U.equals(startKind, ac.currentKind) && U.equals(startDate, currentDate)) {
 				Log.d(TAG, "Long read detected: now=[" + ac.currentKind + " " + currentDate + "]");
-				App.getTracker().send(new HitBuilders.EventBuilder("devotion-longread", startKind.name).setLabel(startDate).setValue(30L).build());
+//				App.getTracker().send(new HitBuilders.EventBuilder("devotion-longread", startKind.name).setLabel(startDate).setValue(30L).build());
 			} else {
 				Log.d(TAG, "Not long enough for long read: previous=[" + startKind + " " + startDate + "] now=[" + ac.currentKind + " " + currentDate + "]");
 			}
@@ -428,7 +427,7 @@ public class DevotionActivity extends BaseLeftDrawerActivity implements LeftDraw
 		}
 
 		if (renderSucceeded) {
-			App.getTracker().send(new HitBuilders.EventBuilder("devotion-render", currentKind.name).setLabel(yyyymmdd.get().format(currentDate)).setValue(0L).build());
+//			App.getTracker().send(new HitBuilders.EventBuilder("devotion-render", currentKind.name).setLabel(yyyymmdd.get().format(currentDate)).setValue(0L).build());
 			longReadChecker.start();
 		}
 	}

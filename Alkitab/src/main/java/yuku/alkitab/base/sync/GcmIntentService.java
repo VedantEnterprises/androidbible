@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import yuku.alkitab.base.App;
 import yuku.alkitab.base.U;
 
@@ -33,39 +32,39 @@ public class GcmIntentService extends IntentService {
 	}
 
 	private void handle(final Intent intent) {
-		final GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+//		final GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
 		final Bundle extras = intent.getExtras();
 		if (extras.isEmpty()) {
 			return;
 		}
 
-		switch (gcm.getMessageType(intent)) {
-			case GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR:
-				Log.d(TAG, "MESSAGE_TYPE_SEND_ERROR: " + extras.toString());
-				break;
-			case GoogleCloudMessaging.MESSAGE_TYPE_DELETED:
-				Log.d(TAG, "MESSAGE_TYPE_DELETED: " + extras.toString());
-				break;
-			case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
-				// It's a regular GCM message, do some work.
-				try {
-					final String source_installation_id = intent.getStringExtra(Gcm.GCM_MESSAGE_KEY_source_installation_id);
-					if (U.equals(source_installation_id, U.getInstallationId())) {
-						Log.d(TAG, "Gcm message sourced from self is ignored");
-					} else {
-						final String encoded_data = intent.getStringExtra(Gcm.GCM_MESSAGE_KEY_encoded_data);
-						final GcmMessageEncodedDataJson data = App.getDefaultGson().fromJson(encoded_data, GcmMessageEncodedDataJson.class);
-						if ("sync".equals(data.kind)) {
-							if (data.syncSetNames != null) {
-								Sync.notifySyncNeeded(data.syncSetNames.toArray(new String[data.syncSetNames.size()]));
-							}
-						}
-					}
-				} catch (Exception e) {
-					Log.d(TAG, "Exception processing GCM message", e);
-				}
-				break;
-		}
+//		switch (gcm.getMessageType(intent)) {
+//			case GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR:
+//				Log.d(TAG, "MESSAGE_TYPE_SEND_ERROR: " + extras.toString());
+//				break;
+//			case GoogleCloudMessaging.MESSAGE_TYPE_DELETED:
+//				Log.d(TAG, "MESSAGE_TYPE_DELETED: " + extras.toString());
+//				break;
+//			case GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE:
+//				// It's a regular GCM message, do some work.
+//				try {
+//					final String source_installation_id = intent.getStringExtra(Gcm.GCM_MESSAGE_KEY_source_installation_id);
+//					if (U.equals(source_installation_id, U.getInstallationId())) {
+//						Log.d(TAG, "Gcm message sourced from self is ignored");
+//					} else {
+//						final String encoded_data = intent.getStringExtra(Gcm.GCM_MESSAGE_KEY_encoded_data);
+//						final GcmMessageEncodedDataJson data = App.getDefaultGson().fromJson(encoded_data, GcmMessageEncodedDataJson.class);
+//						if ("sync".equals(data.kind)) {
+//							if (data.syncSetNames != null) {
+//								Sync.notifySyncNeeded(data.syncSetNames.toArray(new String[data.syncSetNames.size()]));
+//							}
+//						}
+//					}
+//				} catch (Exception e) {
+//					Log.d(TAG, "Exception processing GCM message", e);
+//				}
+//				break;
+//		}
 	}
 }
